@@ -1,0 +1,29 @@
+{
+  "name": "react-native-swipe-onboarding",
+  "version": "1.0.5",
+  "description": "A customizable and animated React Native swipe onboarding component.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo 'No build step required for JS'",
+    "prepare": "echo 'No additional preparation required'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kazinayeem/react-native-swipe-onboarding.git"
+  },
+  "keywords": [
+    "react-native",
+    "onboarding",
+    "swipe",
+    "component",
+    "animated"
+  ],
+  "author": "MOHAMMAD ALI NAYEEM",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-native": ">=0.76.0"
+  }
+}
