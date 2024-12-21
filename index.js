@@ -27,6 +27,7 @@ const SwipeOnboarding = ({
   const { width, height } = useWindowDimensions();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const autoChangeInterval = useRef(null);
+  const flatListRef = useRef(null); // Ref for FlatList
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -39,6 +40,7 @@ const SwipeOnboarding = ({
       autoChangeInterval.current = setInterval(() => {
         setCurrentIndex((prevIndex) => {
           const nextIndex = (prevIndex + 1) % data.length;
+          flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true }); // Scroll to next index
           return nextIndex;
         });
       }, delay);
@@ -49,7 +51,7 @@ const SwipeOnboarding = ({
         clearInterval(autoChangeInterval.current);
       }
     };
-  }, [currentIndex, autoChange, delay]);
+  }, [autoChange, delay]);
 
   const handleNext = () => {
     if (currentIndex < data.length - 1) {
@@ -57,7 +59,11 @@ const SwipeOnboarding = ({
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
-      }).start(() => setCurrentIndex(currentIndex + 1));
+      }).start(() => {
+        const nextIndex = currentIndex + 1;
+        setCurrentIndex(nextIndex);
+        flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+      });
     } else {
       onFinish();
     }
@@ -69,7 +75,11 @@ const SwipeOnboarding = ({
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
-      }).start(() => setCurrentIndex(currentIndex - 1));
+      }).start(() => {
+        const prevIndex = currentIndex - 1;
+        setCurrentIndex(prevIndex);
+        flatListRef.current?.scrollToIndex({ index: prevIndex, animated: true });
+      });
     }
   };
 
@@ -88,8 +98,9 @@ const SwipeOnboarding = ({
   );
 
   return (
-    <View style={[styles.container, { height, width }]}> {/* Ensures full height and width by default */}
+    <View style={[styles.container, { height, width }]}>
       <FlatList
+        ref={flatListRef} // Attach the ref here
         data={data}
         horizontal
         pagingEnabled
@@ -195,5 +206,3 @@ const styles = StyleSheet.create({
 });
 
 export default SwipeOnboarding;
-
-// To publish on npm, create a package.json file with metadata for the package and run `npm publish`.
